@@ -1,0 +1,48 @@
+{
+  "config": {
+    "title": "ISIN Sensor-Konfiguration",
+    "step": {
+      "user": {
+        "title": "Neuen Hub einrichten",
+        "description": "Bitte geben Sie den Namen des Hubs ein, den Sie einrichten möchten.",
+        "data": {
+          "hub_name": "Name des Hubs"
+        },
+        "errors": {
+          "hub_already_exists": "Ein Hub mit diesem Namen existiert bereits."
+        }
+      },
+      "add_sensor": {
+        "title": "Sensor hinzufügen",
+        "description": "Fügen Sie einen neuen Sensor hinzu.",
+        "data": {
+          "isin": "ISIN (z. B. DE000BASF111)",
+          "name": "Name des Sensors",
+          "add_more_sensors": "Weiteren Sensor hinzufügen"
+        },
+        "errors": {
+          "isin_already_exists": "Die ISIN ist bereits vorhanden."
+        }
+      }
+    },
+    "abort": {
+      "hub_already_exists": "Ein Hub mit diesem Namen existiert bereits. Bitte geben Sie einen anderen Namen ein."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Optionen bearbeiten",
+        "description": "Bearbeiten Sie die Konfigurationsoptionen des Hubs.",
+        "data": {
+          "isin": "ISIN (z. B. DE000BASF111)",
+          "name": "Name des Sensors",
+          "add_more_sensors": "Weitere Sensoren hinzufügen"
+        },
+        "errors": {
+          "isin_already_exists": "Die ISIN ist bereits vorhanden."
+        }
+      }
+    }
+  }
+}
