@@ -1,6 +1,7 @@
 """ISIN Sensor Integration."""
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ConfigEntryNotReady
 from .const import DOMAIN
 
 async def async_setup(hass: HomeAssistant, config: dict):
@@ -16,19 +17,23 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][hub_name] = sensors
 
-    # Sensoren registrieren
-    for sensor in sensors:
-        hass.async_create_task(
-            hass.config_entries.async_forward_entry_setup(entry, "sensor")
-        )
+    try:
+        # Forward the entry setup to the sensor platform
+        await hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
+    except Exception as e:
+        # Log the error and raise ConfigEntryNotReady if setup fails
+        hass.data[DOMAIN].pop(hub_name, None)
+        raise ConfigEntryNotReady(f"Error setting up ISIN Sensor: {e}")
 
     return True
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload an ISIN Sensor config entry."""
     hub_name = entry.data["hub_name"]
-    if hub_name in hass.data[DOMAIN]:
-        hass.data[DOMAIN].pop(hub_name)
 
-    await hass.config_entries.async_forward_entry_unload(entry, "sensor")
-    return True
+    # Unload the sensor platform
+    unload_ok = await hass.config_entries.async_forward_entry_unload(entry, "sensor")
+    if unload_ok:
+        hass.data[DOMAIN].pop(hub_name, None)
+
+    return unload_ok

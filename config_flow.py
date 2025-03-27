@@ -1,5 +1,6 @@
 """Config Flow for ISIN Sensor integration."""
 import aiohttp
+import asyncio
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
@@ -10,6 +11,9 @@ _LOGGER = logging.getLogger(__name__)
 
 async def is_valid_isin(isin):
     """Validate the ISIN format by checking the API asynchronously."""
+    if len(isin) != 12:  # Basic ISIN format validation
+        return False
+
     url = f"https://component-api.wertpapiere.ing.de/api/v1/components/instrumentheader/{isin}"
     try:
         async with aiohttp.ClientSession() as session:
@@ -18,6 +22,9 @@ async def is_valid_isin(isin):
                     return False
                 response.raise_for_status()
                 return True
+    except asyncio.TimeoutError:
+        _LOGGER.error("Timeout while validating ISIN: %s", isin)
+        return False
     except aiohttp.ClientError as e:
         _LOGGER.error("Error validating ISIN: %s", e)
         return False
@@ -59,7 +66,8 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=data_schema,
             description_placeholders={
                 "hub_name": description
-            }
+            },
+            errors={}
         )
 
     async def async_step_add_sensor(self, user_input=None):
@@ -123,7 +131,8 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 "isin": description,
                 "name": "Name des Sensors",
                 "add_more_sensors": "Weiteren Sensor hinzufügen"
-            }
+            },
+            errors={}
         )
 
     @staticmethod
@@ -133,7 +142,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return ISINSensorOptionsFlow(config_entry)
 
 
-class ISINSensorOptionsFlow(config_entries.OptionsFlow, domain=DOMAIN):
+class ISINSensorOptionsFlow(config_entries.OptionsFlow):
     """Handle options flow for ISIN Sensor."""
 
     def __init__(self, config_entry):
@@ -156,71 +165,8 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, domain=DOMAIN):
                 "isin": "ISIN (z. B. DE000BASF111)",
                 "name": "Name des Sensors",
                 "add_more_sensors": "Weitere Sensoren hinzufügen"
-            }
-        )
-
-    async def async_step_add_sensor(self, user_input=None):
-        """Add new sensors to the existing hub."""
-        data_schema = vol.Schema(
-            {
-                vol.Required("isin"): str,
-                vol.Required("name"): str,
-                vol.Optional("add_more_sensors", default=False): bool,
-            }
-        )
-        description = "Fügen Sie einen neuen Sensor hinzu."
-
-        if user_input is not None:
-            # Check for duplicate ISINs
-            existing_isins = [sensor["isin"] for sensor in self.sensors]
-            if user_input["isin"] in existing_isins:
-                return self.async_show_form(
-                    step_id="add_sensor",
-                    data_schema=data_schema,
-                    description_placeholders={
-                        "isin": description,
-                        "name": "Name des Sensors",
-                        "add_more_sensors": "Weiteren Sensor hinzufügen"
-                    },
-                    errors={"isin": "isin_already_exists"},
-                )
-
-            # Validate ISIN
-            if not await is_valid_isin(user_input["isin"]):
-                return self.async_show_form(
-                    step_id="add_sensor",
-                    data_schema=data_schema,
-                    description_placeholders={
-                        "isin": description,
-                        "name": "Name des Sensors",
-                        "add_more_sensors": "Weiteren Sensor hinzufügen"
-                    },
-                    errors={"isin": "invalid_isin"},
-                )
-
-            # Add sensor to the list
-            self.sensors.append({"isin": user_input["isin"], "name": user_input["name"]})
-
-            # Check if the user wants to add more sensors
-            if user_input.get("add_more_sensors"):
-                # Restart the same step to add another sensor
-                return await self.async_step_add_sensor()
-
-            # Finalize the entry creation
-            return self.async_create_entry(
-                title=self.hub_name,
-                data={"hub_name": self.hub_name, "sensors": self.sensors},
-            )
-
-        # Display form to add sensors
-        return self.async_show_form(
-            step_id="add_sensor",
-            data_schema=data_schema,
-            description_placeholders={
-                "isin": description,
-                "name": "Name des Sensors",
-                "add_more_sensors": "Weiteren Sensor hinzufügen"
-            }
+            },
+            errors={}
         )
 
 
