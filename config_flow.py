@@ -144,8 +144,9 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
     def __init__(self, config_entry):
         """Initialize the options flow."""
         super().__init__()
-        self.config_entry = config_entry
         self.sensors = config_entry.data.get("sensors", [])
+        self.hub_name = config_entry.data.get("hub_name")
+        self.config_entry_id = config_entry.entry_id
 
     async def async_step_init(self, user_input=None):
         """Initial step for the options flow."""
@@ -175,20 +176,14 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
 
             # Aktualisiere die config_entry-Daten
             updated_data = {
-                "hub_name": self.config_entry.data["hub_name"],
+                "hub_name": self.hub_name,
                 "sensors": self.sensors,  # Aktualisierte Sensorliste
             }
-            try:
-                self.hass.config_entries.async_update_entry(self.config_entry, data=updated_data)
-                _LOGGER.info("Sensor erfolgreich hinzugefügt: %s", user_input["isin"])
-            except Exception as e:
-                _LOGGER.error("Fehler beim Aktualisieren der config_entry: %s", e)
-                return self.async_show_form(
-                    step_id="add_sensor",
-                    data_schema=data_schema,
-                    description_placeholders={"isin": description},
-                    errors={"base": "update_failed"},
-                )
+            self.hass.config_entries.async_update_entry(
+                self.hass.config_entries.async_get_entry(self.config_entry_id),
+                data=updated_data,
+            )
+            _LOGGER.info("Sensor erfolgreich hinzugefügt: %s", user_input["isin"])
 
             # Überprüfe, ob der Benutzer weitere Sensoren hinzufügen möchte
             if user_input.get("add_more_sensors"):
