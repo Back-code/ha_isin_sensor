@@ -190,7 +190,8 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
                 return await self.async_step_add_sensor()
 
             # Beende den Optionsflow
-            return self.async_create_entry(title="", data={})
+            # return self.async_create_entry(title="", data={})
+            return self.async_create_entry(title=self.hub_name, data={"hub_name": self.hub_name, "sensors": self.sensors})
 
         # Zeige das Formular zum Hinzufügen von Sensoren an
         return self.async_show_form(
