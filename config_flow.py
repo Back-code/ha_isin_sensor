@@ -81,6 +81,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, ISINSensorFlowBase, domain
                 return self.async_abort(reason="hub_already_exists")
 
             self.hub_name = user_input["hub_name"]
+            self.sensors = []  # Initialize sensors as an empty list
             return await self.async_step_add_sensor()
 
         # Display hub name input form
@@ -180,7 +181,7 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
                 self.config_entry,
                 data={"hub_name": self.config_entry.data["hub_name"], "sensors": self.sensors},
             )
-            return self.async_create_entry(title="", data={})
+            return self.async_show_menu(step_id="init", menu_options=["finish"])
 
         # Display form to add sensors
         return self.async_show_form(
