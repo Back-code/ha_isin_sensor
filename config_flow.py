@@ -163,6 +163,7 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
         description = "Fügen Sie einen neuen Sensor hinzu."
 
         if user_input is not None:
+            # Überprüfe auf doppelte ISINs
             errors = await self._add_sensor(user_input)
             if errors:
                 return self.async_show_form(
@@ -172,18 +173,21 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
                     errors=errors,
                 )
 
-            # Check if the user wants to add more sensors
+            # Aktualisiere die config_entry-Daten
+            updated_data = {
+                "hub_name": self.config_entry.data["hub_name"],
+                "sensors": self.sensors,  # Aktualisierte Sensorliste
+            }
+            self.hass.config_entries.async_update_entry(self.config_entry, data=updated_data)
+
+            # Überprüfe, ob der Benutzer weitere Sensoren hinzufügen möchte
             if user_input.get("add_more_sensors"):
                 return await self.async_step_add_sensor()
 
-            # Update the config entry with the new sensor list
-            self.hass.config_entries.async_update_entry(
-                self.config_entry,
-                data={"hub_name": self.config_entry.data["hub_name"], "sensors": self.sensors},
-            )
-            return self.async_show_menu(step_id="init", menu_options=["finish"])
+            # Beende den Optionsflow
+            return self.async_create_entry(title="", data={})
 
-        # Display form to add sensors
+        # Zeige das Formular zum Hinzufügen von Sensoren an
         return self.async_show_form(
             step_id="add_sensor",
             data_schema=data_schema,
