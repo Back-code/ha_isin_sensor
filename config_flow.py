@@ -135,15 +135,17 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, ISINSensorFlowBase, domain
     @callback
     def async_get_options_flow(config_entry):
         """Return the options flow handler."""
-        return ISINSensorOptionsFlow()
+        return ISINSensorOptionsFlow(config_entry)
 
 
 class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
     """Handle options flow for ISIN Sensor."""
 
-    def __init__(self):
+    def __init__(self, config_entry):
         """Initialize the options flow."""
         super().__init__()
+        self.config_entry = config_entry
+        self.sensors = config_entry.data.get("sensors", [])
 
     async def async_step_init(self, user_input=None):
         """Initial step for the options flow."""
@@ -151,10 +153,6 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
 
     async def async_step_add_sensor(self, user_input=None):
         """Add new sensors to the existing hub."""
-        # Load the current sensors from the config entry
-        config_entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
-        self.sensors = config_entry.data.get("sensors", [])
-
         data_schema = vol.Schema(
             {
                 vol.Required("isin"): str,
@@ -180,8 +178,8 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
 
             # Update the config entry with the new sensor list
             self.hass.config_entries.async_update_entry(
-                config_entry,
-                data={"hub_name": config_entry.data["hub_name"], "sensors": self.sensors},
+                self.config_entry,
+                data={"hub_name": self.config_entry.data["hub_name"], "sensors": self.sensors},
             )
             return self.async_show_menu(step_id="init", menu_options=["finish"])
 
