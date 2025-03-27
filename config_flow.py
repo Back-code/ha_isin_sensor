@@ -178,7 +178,17 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
                 "hub_name": self.config_entry.data["hub_name"],
                 "sensors": self.sensors,  # Aktualisierte Sensorliste
             }
-            self.hass.config_entries.async_update_entry(self.config_entry, data=updated_data)
+            try:
+                self.hass.config_entries.async_update_entry(self.config_entry, data=updated_data)
+                _LOGGER.info("Sensor erfolgreich hinzugefügt: %s", user_input["isin"])
+            except Exception as e:
+                _LOGGER.error("Fehler beim Aktualisieren der config_entry: %s", e)
+                return self.async_show_form(
+                    step_id="add_sensor",
+                    data_schema=data_schema,
+                    description_placeholders={"isin": description},
+                    errors={"base": "update_failed"},
+                )
 
             # Überprüfe, ob der Benutzer weitere Sensoren hinzufügen möchte
             if user_input.get("add_more_sensors"):
