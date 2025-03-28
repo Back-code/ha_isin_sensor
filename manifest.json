@@ -3,12 +3,12 @@
   "name": "Stock Pocket - ISIN Sensors",
   "version": "0.1.6",
   "config_flow": true,
-  "logo": "/icons/icon.png",
   "documentation": "https://github.com/Back-code/ha_isin_sensor",
   "integration_type": "hub",
   "issue_tracker": "https://github.com/Back-code/ha_isin_sensor/issues",
   "dependencies": [],
   "requirements": [],
   "codeowners": ["@Back-code"],
-  "translations": ["de", "en"]
+  "translations": ["de", "en"],
+  "icon": "https://github.com/Back-code/ha_isin_sensor/blob/4524846e91f9f6830015a3c340b547e125e77bf4/icons/icon.png"
 }
