@@ -3,22 +3,22 @@
     "title": "ISIN Sensor-Konfiguration",
     "step": {
       "user": {
-        "title": "Neuen Hub einrichten",
-        "description": "Bitte geben Sie den Namen des Hubs ein, den Sie einrichten möchten.",
+        "title": "Neues Depot einrichten",
+        "description": "Bitte geben Sie den Namen des Depots ein, das Sie einrichten möchten.",
         "data": {
-          "hub_name": "Name des Hubs"
+          "hub_name": "Name des Depots"
         },
         "errors": {
-          "hub_already_exists": "Ein Hub mit diesem Namen existiert bereits."
+          "hub_already_exists": "Ein Depot mit diesem Namen existiert bereits."
         }
       },
       "add_sensor": {
-        "title": "Sensor hinzufügen",
-        "description": "Fügen Sie einen neuen Sensor hinzu.",
+        "title": "Aktie hinzufügen",
+        "description": "Fügen Sie eine neue Aktie hinzu.",
         "data": {
           "isin": "ISIN (z. B. DE000BASF111)",
-          "name": "Name des Sensors",
-          "add_more_sensors": "Weiteren Sensor hinzufügen"
+          "name": "Name der Aktie",
+          "add_more_sensors": "Weitere Aktie hinzufügen"
         },
         "errors": {
           "isin_already_exists": "Die ISIN ist bereits vorhanden."
@@ -26,18 +26,18 @@
       }
     },
     "abort": {
-      "hub_already_exists": "Ein Hub mit diesem Namen existiert bereits. Bitte geben Sie einen anderen Namen ein."
+      "hub_already_exists": "Ein Depot mit diesem Namen existiert bereits. Bitte geben Sie einen anderen Namen ein."
     }
   },
   "options": {
     "step": {
       "init": {
-        "title": "Optionen bearbeiten",
-        "description": "Bearbeiten Sie die Konfigurationsoptionen des Hubs.",
+        "title": "Aktie hinzufügen",
+        "description": "Fügen Sie eine neue Aktie hinzu.",
         "data": {
           "isin": "ISIN (z. B. DE000BASF111)",
-          "name": "Name des Sensors",
-          "add_more_sensors": "Weitere Sensoren hinzufügen"
+          "name": "Name der Aktie",
+          "add_more_sensors": "Weitere Aktie hinzufügen"
         },
         "errors": {
           "isin_already_exists": "Die ISIN ist bereits vorhanden."
