@@ -192,5 +192,10 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
         return self.async_show_form(
             step_id="edit_sensors",
             data_schema=data_schema,
+            description_placeholders={
+                 "isin": description,
+                 "name": "Name des Sensors",
+                 "add_more_sensors": "Weiteren Sensor hinzufügen"
+             },
             errors={}
         )
