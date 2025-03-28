@@ -4,6 +4,7 @@ import asyncio
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
+from homeassistant.helpers import entity_registry as er
 import logging
 from .const import DOMAIN
 
@@ -138,7 +139,6 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
 
     async def async_step_edit_sensors(self, user_input=None):
         """Edit the sensors in the hub."""
-        # Hole die aktuellen Konfigurationsdaten über die Entry-ID
         config_entry = self.hass.config_entries.async_get_entry(self.config_entry_id)
         sensors = config_entry.data.get("sensors", [])
 
@@ -173,6 +173,9 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
             # Check if the user wants to add more sensors
             if user_input.get("add_more_sensors"):
                 return await self.async_step_edit_sensors()
+            
+            # Logging der aktualisierten Daten
+            _LOGGER.debug("Updated sensors: %s", sensors)
 
             # Speichere die aktualisierten Sensoren in den Config-Entry-Daten
             self.hass.config_entries.async_update_entry(
