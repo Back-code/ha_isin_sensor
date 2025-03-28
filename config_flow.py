@@ -147,6 +147,11 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
                 vol.Required("isin"): str,
                 vol.Required("name"): str,
                 vol.Optional("add_more_sensors", default=False): bool,
+            },
+            description_placeholders={
+                "isin": "ISIN (z. B. DE000BASF111)",
+                "name": "Name des Sensors",
+                "add_more_sensors": "Weitere Sensoren hinzufügen"
             }
         )
 
