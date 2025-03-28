@@ -144,8 +144,8 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
     def __init__(self, config_entry):
         """Initialize the options flow."""
         super().__init__()
-        self.sensors = config_entry.data.get("sensors", [])
         self.hub_name = config_entry.data.get("hub_name")
+        self.sensors = config_entry.data.get("sensors", [])
         self.config_entry_id = config_entry.entry_id
 
     async def async_step_init(self, user_input=None):
@@ -173,17 +173,29 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
                     description_placeholders={"isin": description},
                     errors=errors,
                 )
-
-            # Aktualisiere die config_entry-Daten
-            updated_data = {
-                "hub_name": self.hub_name,
-                "sensors": self.sensors,  # Aktualisierte Sensorliste
-            }
+            
+            # Speichere die Konfiguration
             self.hass.config_entries.async_update_entry(
-                self.hass.config_entries.async_get_entry(self.config_entry_id),
-                data=updated_data,
+                self.config_entry, data={"hub_name": self.hub_name, "sensors": self.sensors}
             )
-            _LOGGER.info("Sensor erfolgreich hinzugefügt: %s", user_input["isin"])
+        
+            # Aktualisiere die Hub-Integration
+            async def _update_hub_integration(self):
+                """Update the hub integration to reflect the new sensor."""
+                hub_name = self.hub_name
+                sensors = self.sensors
+
+                # Stelle sicher, dass das richtige Objekt verwendet wird
+                hub = self.hass.data[DOMAIN].get(hub_name)
+                if hub and hasattr(hub, 'update_sensors'):
+                    await self.hass.async_add_executor_job(hub.update_sensors, sensors)
+                else:
+                    _LOGGER.error("Hub %s does not have method update_sensors", hub_name)
+            
+            # Aktualisiere die Plattform-Integration
+            #await self.hass.config_entries.async_forward_entry_setups(self.config_entry, ["sensor"])
+            
+            #_LOGGER.info("Sensor erfolgreich hinzugefügt: %s", user_input["isin"])
 
             # Überprüfe, ob der Benutzer weitere Sensoren hinzufügen möchte
             if user_input.get("add_more_sensors"):
@@ -191,7 +203,10 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
 
             # Beende den Optionsflow
             # return self.async_create_entry(title="", data={})
-            return self.async_create_entry(title=self.hub_name, data={"hub_name": self.hub_name, "sensors": self.sensors})
+            return self.async_create_entry(
+                title=self.hub_name,
+                data={"hub_name": self.hub_name, "sensors": self.sensors},
+            )
 
         # Zeige das Formular zum Hinzufügen von Sensoren an
         return self.async_show_form(
@@ -199,4 +214,14 @@ class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
             data_schema=data_schema,
             description_placeholders={"isin": description},
             errors={}
+        )
+
+    async def _update_hub_integration(self):
+        """Update the hub integration to reflect the new sensor."""
+        # Hier könntest du einen API-Aufruf oder eine Methode hinzufügen, die die Hub-Integration aktualisiert
+        hub_name = self.hub_name
+        sensors = self.sensors
+        # Beispiel: Sende eine Benachrichtigung an den Hub
+        await self.hass.async_add_executor_job(
+            self.hass.data[DOMAIN][hub_name].update_sensors, sensors
         )
