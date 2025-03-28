@@ -130,8 +130,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
 
     def __init__(self, config_entry):
         """Initialize the options flow."""
-        self.config_entry = config_entry
-        self.sensors = config_entry.data.get("sensors", [])
+        self.config_entry_id = config_entry.entry_id  # Speichere nur die Entry-ID
 
     async def async_step_init(self, user_input=None):
         """Manage the options for the integration."""
@@ -139,6 +138,10 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
 
     async def async_step_edit_sensors(self, user_input=None):
         """Edit the sensors in the hub."""
+        # Hole die aktuellen Konfigurationsdaten über die Entry-ID
+        config_entry = self.hass.config_entries.async_get_entry(self.config_entry_id)
+        sensors = config_entry.data.get("sensors", [])
+
         data_schema = vol.Schema(
             {
                 vol.Required("isin"): str,
@@ -157,7 +160,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
                 )
 
             # Check for duplicate ISINs
-            if any(sensor["isin"] == user_input["isin"] for sensor in self.sensors):
+            if any(sensor["isin"] == user_input["isin"] for sensor in sensors):
                 return self.async_show_form(
                     step_id="edit_sensors",
                     data_schema=data_schema,
@@ -165,16 +168,16 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
                 )
 
             # Add or update the sensor
-            self.sensors.append({"isin": user_input["isin"], "name": user_input["name"]})
+            sensors.append({"isin": user_input["isin"], "name": user_input["name"]})
 
             # Check if the user wants to add more sensors
             if user_input.get("add_more_sensors"):
                 return await self.async_step_edit_sensors()
 
-            # Save the updated sensors
+            # Speichere die aktualisierten Sensoren in den Config-Entry-Daten
             self.hass.config_entries.async_update_entry(
-                self.config_entry,
-                data={**self.config_entry.data, "sensors": self.sensors},
+                config_entry,
+                data={**config_entry.data, "sensors": sensors},
             )
             return self.async_create_entry(title="", data={})
 
