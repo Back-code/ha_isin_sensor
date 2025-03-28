@@ -112,3 +112,68 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def _isin_exists(self, isin):
         """Check if an ISIN already exists in the current sensors."""
         return any(sensor["isin"] == isin for sensor in self.sensors)
+
+    def _hub_exists(self, hub_name):
+        """Check if a hub with the same name already exists."""
+        existing_entries = self._async_current_entries()
+        return any(entry.title == hub_name for entry in existing_entries)
+
+
+class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
+    """Handle the options flow for ISIN Sensor."""
+
+    def __init__(self, config_entry):
+        """Initialize the options flow."""
+        self.config_entry = config_entry
+        self.sensors = config_entry.data.get("sensors", [])
+
+    async def async_step_init(self, user_input=None):
+        """Manage the options for the integration."""
+        return await self.async_step_edit_sensors()
+
+    async def async_step_edit_sensors(self, user_input=None):
+        """Edit the sensors in the hub."""
+        data_schema = vol.Schema(
+            {
+                vol.Required("isin"): str,
+                vol.Required("name"): str,
+                vol.Optional("add_more_sensors", default=False): bool,
+            }
+        )
+
+        if user_input is not None:
+            # Validate ISIN
+            if not await is_valid_isin(user_input["isin"]):
+                return self.async_show_form(
+                    step_id="edit_sensors",
+                    data_schema=data_schema,
+                    errors={"isin": "invalid_isin"},
+                )
+
+            # Check for duplicate ISINs
+            if any(sensor["isin"] == user_input["isin"] for sensor in self.sensors):
+                return self.async_show_form(
+                    step_id="edit_sensors",
+                    data_schema=data_schema,
+                    errors={"isin": "isin_already_exists"},
+                )
+
+            # Add or update the sensor
+            self.sensors.append({"isin": user_input["isin"], "name": user_input["name"]})
+
+            # Check if the user wants to add more sensors
+            if user_input.get("add_more_sensors"):
+                return await self.async_step_edit_sensors()
+
+            # Save the updated sensors
+            self.hass.config_entries.async_update_entry(
+                self.config_entry,
+                data={**self.config_entry.data, "sensors": self.sensors},
+            )
+            return self.async_create_entry(title="", data={})
+
+        return self.async_show_form(
+            step_id="edit_sensors",
+            data_schema=data_schema,
+            errors={}
+        )

@@ -49,3 +49,18 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
         hass.data[DOMAIN].pop(hub_name, None)
 
     return unload_ok
+
+async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
+    """Handle updates to the options of a config entry."""
+    hub_name = entry.data["hub_name"]
+    sensors = entry.options.get("sensors", entry.data["sensors"])
+
+    # Update the hub with the new sensors
+    if hub_name in hass.data[DOMAIN]:
+        hass.data[DOMAIN][hub_name].update_sensors(sensors)
+
+    # Update the config entry data
+    hass.config_entries.async_update_entry(
+        entry,
+        data={**entry.data, "sensors": sensors},
+    )
