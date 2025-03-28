@@ -50,10 +50,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             # Check if the hub already exists
-            existing_entries = [
-                entry for entry in self._async_current_entries() if entry.data.get("hub_name") == user_input["hub_name"]
-            ]
-            if existing_entries:
+            if self._hub_exists(user_input["hub_name"]):
                 return self.async_abort(reason="hub_already_exists")
 
             self.hub_name = user_input["hub_name"]
@@ -86,8 +83,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 )
 
             # Check for duplicate ISINs
-            existing_isins = [sensor["isin"] for sensor in self.sensors]
-            if user_input["isin"] in existing_isins:
+            if self._isin_exists(user_input["isin"]):
                 return self.async_show_form(
                     step_id="add_sensor",
                     data_schema=data_schema,
@@ -112,3 +108,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=data_schema,
             errors={}
         )
+
+    def _isin_exists(self, isin):
+        """Check if an ISIN already exists in the current sensors."""
+        return any(sensor["isin"] == isin for sensor in self.sensors)
