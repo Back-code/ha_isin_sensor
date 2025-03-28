@@ -1,4 +1,4 @@
-"""Config Flow and Options Flow for ISIN Sensor integration."""
+"""Config Flow for ISIN Sensor integration."""
 import aiohttp
 import asyncio
 import voluptuous as vol
@@ -30,38 +30,15 @@ async def is_valid_isin(isin):
         return False
 
 
-class ISINSensorFlowBase:
-    """Base class for shared logic between ConfigFlow and OptionsFlow."""
-
-    def __init__(self):
-        """Initialize the flow."""
-        self.sensors = []
-
-    async def _add_sensor(self, user_input):
-        """Handle adding a new sensor."""
-        # Check for duplicate ISINs
-        existing_isins = [sensor["isin"] for sensor in self.sensors]
-        if user_input["isin"] in existing_isins:
-            return {"isin": "isin_already_exists"}
-
-        # Validate ISIN
-        if not await is_valid_isin(user_input["isin"]):
-            return {"isin": "invalid_isin"}
-
-        # Add sensor to the list
-        self.sensors.append({"isin": user_input["isin"], "name": user_input["name"]})
-        return None
-
-
-class ISINSensorConfigFlow(config_entries.ConfigFlow, ISINSensorFlowBase, domain=DOMAIN):
-    """Handle the main config flow for ISIN Sensor."""
+class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle the config flow for ISIN Sensor."""
 
     VERSION = 1
 
     def __init__(self):
-        """Initialize the flow."""
-        super().__init__()
+        """Initialize the config flow."""
         self.hub_name = None
+        self.sensors = []
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step to set up a hub."""
@@ -70,7 +47,6 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, ISINSensorFlowBase, domain
                 vol.Required("hub_name"): str,
             }
         )
-        description = "Bitte geben Sie den Namen des Hubs ein."
 
         if user_input is not None:
             # Check if the hub already exists
@@ -84,11 +60,9 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, ISINSensorFlowBase, domain
             self.sensors = []  # Initialize sensors as an empty list
             return await self.async_step_add_sensor()
 
-        # Display hub name input form
         return self.async_show_form(
             step_id="user",
             data_schema=data_schema,
-            description_placeholders={"hub_name": description},
             errors={}
         )
 
@@ -101,17 +75,27 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, ISINSensorFlowBase, domain
                 vol.Optional("add_more_sensors", default=False): bool,
             }
         )
-        description = "Fügen Sie einen neuen Sensor hinzu."
 
         if user_input is not None:
-            errors = await self._add_sensor(user_input)
-            if errors:
+            # Validate ISIN
+            if not await is_valid_isin(user_input["isin"]):
                 return self.async_show_form(
                     step_id="add_sensor",
                     data_schema=data_schema,
-                    description_placeholders={"isin": description},
-                    errors=errors,
+                    errors={"isin": "invalid_isin"},
                 )
+
+            # Check for duplicate ISINs
+            existing_isins = [sensor["isin"] for sensor in self.sensors]
+            if user_input["isin"] in existing_isins:
+                return self.async_show_form(
+                    step_id="add_sensor",
+                    data_schema=data_schema,
+                    errors={"isin": "isin_already_exists"},
+                )
+
+            # Add sensor to the list
+            self.sensors.append({"isin": user_input["isin"], "name": user_input["name"]})
 
             # Check if the user wants to add more sensors
             if user_input.get("add_more_sensors"):
@@ -123,105 +107,8 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, ISINSensorFlowBase, domain
                 data={"hub_name": self.hub_name, "sensors": self.sensors},
             )
 
-        # Display form to add sensors
         return self.async_show_form(
             step_id="add_sensor",
             data_schema=data_schema,
-            description_placeholders={"isin": description},
             errors={}
-        )
-
-    @staticmethod
-    @callback
-    def async_get_options_flow(config_entry):
-        """Return the options flow handler."""
-        return ISINSensorOptionsFlow(config_entry)
-
-
-class ISINSensorOptionsFlow(config_entries.OptionsFlow, ISINSensorFlowBase):
-    """Handle options flow for ISIN Sensor."""
-
-    def __init__(self, config_entry):
-        """Initialize the options flow."""
-        super().__init__()
-        self.hub_name = config_entry.data.get("hub_name")
-        self.sensors = config_entry.data.get("sensors", [])
-        self.config_entry_id = config_entry.entry_id
-
-    async def async_step_init(self, user_input=None):
-        """Initial step for the options flow."""
-        return await self.async_step_add_sensor()
-
-    async def async_step_add_sensor(self, user_input=None):
-        """Add new sensors to the existing hub."""
-        data_schema = vol.Schema(
-            {
-                vol.Required("isin"): str,
-                vol.Required("name"): str,
-                vol.Optional("add_more_sensors", default=False): bool,
-            }
-        )
-        description = "Fügen Sie einen neuen Sensor hinzu."
-
-        if user_input is not None:
-            # Überprüfe auf doppelte ISINs
-            errors = await self._add_sensor(user_input)
-            if errors:
-                return self.async_show_form(
-                    step_id="add_sensor",
-                    data_schema=data_schema,
-                    description_placeholders={"isin": description},
-                    errors=errors,
-                )
-            
-            # Speichere die Konfiguration
-            self.hass.config_entries.async_update_entry(
-                self.config_entry, data={"hub_name": self.hub_name, "sensors": self.sensors}
-            )
-        
-            # Aktualisiere die Hub-Integration
-            async def _update_hub_integration(self):
-                """Update the hub integration to reflect the new sensor."""
-                hub_name = self.hub_name
-                sensors = self.sensors
-
-                # Stelle sicher, dass das richtige Objekt verwendet wird
-                hub = self.hass.data[DOMAIN].get(hub_name)
-                if hub and hasattr(hub, 'update_sensors'):
-                    await self.hass.async_add_executor_job(hub.update_sensors, sensors)
-                else:
-                    _LOGGER.error("Hub %s does not have method update_sensors", hub_name)
-            
-            # Aktualisiere die Plattform-Integration
-            #await self.hass.config_entries.async_forward_entry_setups(self.config_entry, ["sensor"])
-            
-            #_LOGGER.info("Sensor erfolgreich hinzugefügt: %s", user_input["isin"])
-
-            # Überprüfe, ob der Benutzer weitere Sensoren hinzufügen möchte
-            if user_input.get("add_more_sensors"):
-                return await self.async_step_add_sensor()
-
-            # Beende den Optionsflow
-            # return self.async_create_entry(title="", data={})
-            return self.async_create_entry(
-                title=self.hub_name,
-                data={"hub_name": self.hub_name, "sensors": self.sensors},
-            )
-
-        # Zeige das Formular zum Hinzufügen von Sensoren an
-        return self.async_show_form(
-            step_id="add_sensor",
-            data_schema=data_schema,
-            description_placeholders={"isin": description},
-            errors={}
-        )
-
-    async def _update_hub_integration(self):
-        """Update the hub integration to reflect the new sensor."""
-        # Hier könntest du einen API-Aufruf oder eine Methode hinzufügen, die die Hub-Integration aktualisiert
-        hub_name = self.hub_name
-        sensors = self.sensors
-        # Beispiel: Sende eine Benachrichtigung an den Hub
-        await self.hass.async_add_executor_job(
-            self.hass.data[DOMAIN][hub_name].update_sensors, sensors
         )
