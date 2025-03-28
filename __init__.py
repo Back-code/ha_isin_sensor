@@ -3,6 +3,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from .const import DOMAIN
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 class ISINHub:
     """Class to manage ISIN Hub."""
@@ -24,7 +27,9 @@ async def async_setup(hass: HomeAssistant, config: dict):
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up the ISIN Sensor integration from a config entry."""
     hub_name = entry.data["hub_name"]
-    sensors = entry.options.get("sensors", entry.data["sensors"])  # Optionen berücksichtigen
+    sensors = entry.options.get("sensors", entry.data.get("sensors", []))  # Optionen berücksichtigen
+
+    _LOGGER.debug("Setting up hub: %s with sensors: %s", hub_name, sensors)
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][hub_name] = ISINHub(hub_name, sensors)
@@ -53,7 +58,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
 async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
     """Handle updates to the options of a config entry."""
     hub_name = entry.data["hub_name"]
-    sensors = entry.options.get("sensors", entry.data["sensors"])
+    sensors = entry.options.get("sensors", entry.data.get("sensors", []))
 
     # Update the hub with the new sensors
     if hub_name in hass.data[DOMAIN]:
@@ -64,3 +69,6 @@ async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
         entry,
         data={**entry.data, "sensors": sensors},
     )
+
+    # Reload the entry to apply changes
+    await hass.config_entries.async_reload(entry.entry_id)
