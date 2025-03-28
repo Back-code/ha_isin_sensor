@@ -34,7 +34,6 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle the config flow for ISIN Sensor."""
 
     VERSION = 1
-    options_flow_class = ISINSensorOptionsFlowHandler  # Registriere die OptionsFlow-Klasse
 
     def __init__(self):
         """Initialize the config flow."""
@@ -118,6 +117,12 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Check if a hub with the same name already exists."""
         existing_entries = self._async_current_entries()
         return any(entry.title == hub_name for entry in existing_entries)
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry):
+        """Return the options flow handler."""
+        return ISINSensorOptionsFlowHandler(config_entry)
 
 
 class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
