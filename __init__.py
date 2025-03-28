@@ -16,8 +16,8 @@ class ISINHub:
 
     def update_sensors(self, sensors):
         """Update the sensors in the hub."""
+        _LOGGER.debug("Updating sensors for hub: %s with sensors: %s", self.hub_name, sensors)
         self.sensors = sensors
-        # Hier kannst du zusätzliche Logik hinzufügen, um den Hub zu aktualisieren
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the ISIN Sensor integration from configuration.yaml."""
@@ -72,3 +72,18 @@ async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
 
     # Reload the entry to apply changes
     await hass.config_entries.async_reload(entry.entry_id)
+
+async def async_update_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Handle updates to a config entry."""
+    hub_name = entry.data["hub_name"]
+    sensors = entry.options.get("sensors", entry.data.get("sensors", []))
+
+    _LOGGER.debug("Updating hub: %s with sensors: %s", hub_name, sensors)
+
+    # Aktualisiere die Sensoren im Hub
+    if hub_name in hass.data[DOMAIN]:
+        hass.data[DOMAIN][hub_name].update_sensors(sensors)
+
+    # Lade die Sensor-Plattform neu, um die neuen Sensoren zu registrieren
+    await hass.config_entries.async_forward_entry_unload(entry, "sensor")
+    await hass.config_entries.async_forward_entry_setup(entry, "sensor")

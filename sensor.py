@@ -18,7 +18,8 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     for sensor in sensors:
         _LOGGER.debug("Registering sensor: %s with ISIN: %s for hub: %s", sensor["name"], sensor["isin"], hub_name)
         entities.append(ISINSensor(sensor["isin"], sensor["name"], hub_name))
-    async_add_entities(entities)
+
+    async_add_entities(entities, update_before_add=True)
 
 class ISINSensor(SensorEntity):
     """Representation of an ISIN Sensor."""
