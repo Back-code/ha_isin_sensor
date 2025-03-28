@@ -1,4 +1,5 @@
 {
+  "title": "ISIN Sensor",
   "config": {
     "title": "ISIN Sensor-Konfiguration",
     "step": {
@@ -21,7 +22,8 @@
           "add_more_sensors": "Weitere Aktie hinzufügen"
         },
         "errors": {
-          "isin_already_exists": "Die ISIN ist bereits vorhanden."
+          "isin_already_exists": "Die ISIN ist bereits vorhanden.",
+          "invalid_isin": "Die eingegebene ISIN ist ungültig."
         }
       }
     },
@@ -40,7 +42,8 @@
           "add_more_sensors": "Weitere Aktie hinzufügen"
         },
         "errors": {
-          "isin_already_exists": "Die ISIN ist bereits vorhanden."
+          "isin_already_exists": "Die ISIN ist bereits vorhanden.",
+          "invalid_isin": "Die eingegebene ISIN ist ungültig."
         }
       }
     }

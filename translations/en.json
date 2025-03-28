@@ -1,0 +1,33 @@
+{
+  "config": {
+    "title": "ISIN Sensor Configuration",
+    "step": {
+      "user": {
+        "title": "Set up a new portfolio",
+        "description": "Please enter the name of the portfolio you want to set up.",
+        "data": {
+          "hub_name": "Portfolio Name"
+        },
+        "errors": {
+          "hub_already_exists": "A portfolio with this name already exists."
+        }
+      },
+      "add_sensor": {
+        "title": "Add Stock",
+        "description": "Add a new stock.",
+        "data": {
+          "isin": "ISIN (e.g., DE000BASF111)",
+          "name": "Stock Name",
+          "add_more_sensors": "Add another stock"
+        },
+        "errors": {
+          "isin_already_exists": "The ISIN already exists.",
+          "invalid_isin": "The entered ISIN is invalid."
+        }
+      }
+    },
+    "abort": {
+      "hub_already_exists": "A portfolio with this name already exists. Please choose a different name."
+    }
+  }
+}
