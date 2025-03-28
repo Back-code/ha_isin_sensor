@@ -24,7 +24,7 @@ async def async_setup(hass: HomeAssistant, config: dict):
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up the ISIN Sensor integration from a config entry."""
     hub_name = entry.data["hub_name"]
-    sensors = entry.data["sensors"]
+    sensors = entry.options.get("sensors", entry.data["sensors"])  # Optionen berücksichtigen
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][hub_name] = ISINHub(hub_name, sensors)

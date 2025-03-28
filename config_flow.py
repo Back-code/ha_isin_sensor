@@ -34,6 +34,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle the config flow for ISIN Sensor."""
 
     VERSION = 1
+    options_flow_class = ISINSensorOptionsFlowHandler  # Registriere die OptionsFlow-Klasse
 
     def __init__(self):
         """Initialize the config flow."""
