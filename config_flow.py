@@ -183,6 +183,10 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
                 data={**config_entry.data, "sensors": sensors},
             )
             _LOGGER.debug("Config entry updated: %s", config_entry.data)
+
+            # Reload the config entry to apply changes
+            await self.hass.config_entries.async_reload(config_entry.entry_id)
+
             return self.async_create_entry(title="", data={})
 
         return self.async_show_form(
