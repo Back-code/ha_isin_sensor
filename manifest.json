@@ -10,5 +10,5 @@
   "requirements": [],
   "codeowners": ["@Back-code"],
   "translations": ["de", "en"],
-  "icon": "https://github.com/Back-code/ha_isin_sensor/blob/4524846e91f9f6830015a3c340b547e125e77bf4/icons/icon.png"
+  "icon": "https://raw.githubusercontent.com/Back-code/ha_isin_sensor/refs/heads/main/icons/icon.png"
 }
