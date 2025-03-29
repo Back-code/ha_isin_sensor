@@ -1,5 +1,5 @@
 {
-  "domain": "isin_sensor",
+  "domain": "stock-pocket",
   "name": "Stock Pocket - ISIN Sensors",
   "version": "0.1.8",
   "config_flow": true,
