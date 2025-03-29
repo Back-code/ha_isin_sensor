@@ -27,7 +27,24 @@
       }
     },
     "abort": {
-      "hub_already_exists": "A portfolio with this name already exists. Please choose a different name."
+      "hub_already_exists": "A portfolio with this name already exists. Please enter a different name."
+    }
+  },
+  "options": {
+    "step": {
+      "edit_sensor": {
+        "title": "Edit Stocks",
+        "description": "Edit the stocks in your portfolio.",
+        "data": {
+          "isin": "ISIN (e.g., DE000BASF111)",
+          "name": "Stock Name",
+          "add_more_sensors": "Add another stock"
+        },
+        "errors": {
+          "isin_already_exists": "The ISIN already exists.",
+          "invalid_isin": "The entered ISIN is invalid."
+        }
+      }
     }
   }
 }

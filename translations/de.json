@@ -1,11 +1,10 @@
 {
-  "header": "Depots",
   "config": {
     "title": "ISIN Sensor-Konfiguration",
     "step": {
       "user": {
         "title": "Neues Depot einrichten",
-        "description": "Bitte geben Sie den Namen des Depots ein, das Sie einrichten möchten.",
+        "description": "Bitte geben Sie den Namen des Depots ein.",
         "data": {
           "hub_name": "Name des Depots"
         },
