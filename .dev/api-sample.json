@@ -1,0 +1,62 @@
+{
+  "id": 994529,
+  "name": "NVIDIA",
+  "price": 100.88,
+  "close": 103.48000000,
+  "bid": 100.74,
+  "bidDate": "2025-03-28T22:00:56+01:00",
+  "ask": 100.84,
+  "askDate": "2025-03-28T22:00:56+01:00",
+  "changePercent": -2.5125628140703517587939698500,
+  "changeAbsolute": -2.60000000,
+  "instrumentType": {
+    "mainType": "Share"
+  },
+  "instrumentTypeDisplayName": "Aktie",
+  "wkn": "918422",
+  "isin": "US67066G1040",
+  "internalIsin": "US67066G1040",
+  "stockMarket": "Direkthandel",
+  "priceChangeDate": "2025-03-28T21:59:54+01:00",
+  "currency": "EUR",
+  "currencySign": "EUR",
+  "pushSymbol": "X000ADB0200994529",
+  "labels": {
+    "buttonWatch": "Beobachten"
+  },
+  "webtrekkPixelSettings": {
+    "observe": "beobachten__header__sh.content.link_intern"
+  },
+  "formatDefinitions": [
+    {
+      "propertyName": "price",
+      "formatString": "0,0.00[00]",
+      "valueType": "Number",
+      "name": "TwoToFourDecimals"
+    },
+    {
+      "propertyName": "bid",
+      "formatString": "0,0.00[00]",
+      "valueType": "Number",
+      "name": "TwoToFourDecimals"
+    },
+    {
+      "propertyName": "ask",
+      "formatString": "0,0.00[00]",
+      "valueType": "Number",
+      "name": "TwoToFourDecimals"
+    },
+    {
+      "propertyName": "changePercent",
+      "formatString": "0,0.00",
+      "valueType": "Number",
+      "name": "TwoDecimals"
+    },
+    {
+      "propertyName": "changeAbsolute",
+      "formatString": "0,0.00[00]",
+      "valueType": "Number",
+      "name": "TwoToFourDecimals"
+    }
+  ]
+}

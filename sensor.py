@@ -71,14 +71,17 @@ class ISINSensor(SensorEntity):
                         "name": data.get("name"),
                         "close": data.get("close"),
                         "bit": data.get("bit"),
+                        "bidDate": data.get("bidDate"),
                         "ask": data.get("ask"),
+                        "askDate": data.get("askDate"),
+                        "wkn": data.get("wkn"),
                         "isin": data.get("isin"),
                         "internalIsin": data.get("internalIsin"),
                         "stockMarket": data.get("stockMarket"),
                         "priceChangeDate": data.get("priceChangeDate"),
                         "currency": data.get("currency"),
+                        "currencySign": data.get("currencySign"),
                         "changePercent": data.get("changePercent"),
-                        "wkn": data.get("wkn"),
                         "changeAbsolute": data.get("changeAbsolute"),
                     }
         except aiohttp.ClientError as e:
