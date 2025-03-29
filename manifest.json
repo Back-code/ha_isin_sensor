@@ -1,7 +1,7 @@
 {
   "domain": "ha_isin_sensor",
   "name": "Stock Pocket - ISIN Sensors",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "config_flow": true,
   "documentation": "https://github.com/Back-code/ha_isin_sensor",
   "integration_type": "hub",
