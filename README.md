@@ -4,7 +4,7 @@ Stock Sensors for Home Assistant
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Back-code&repository=https%3A%2F%2Fgithub.com%2FBack-code%2Fha_isin_sensor&category=Stock)
 
 ## Overview
-The `ha_isin_sensor` integration allows you to track stock prices and related information using ISIN (International Securities Identification Number) codes. This integration fetches real-time stock data and displays it as sensors in Home Assistant.
+The `Mini Stock Pocket` integration allows you to track stock prices and related information using ISIN (International Securities Identification Number) codes. This integration fetches real-time stock data and displays it as sensors in Home Assistant.
 
 ## Features
 - **Add Stocks**: Add multiple stocks to a hub using their ISIN codes.
@@ -15,9 +15,9 @@ The `ha_isin_sensor` integration allows you to track stock prices and related in
 - **Configuration via UI**: Supports configuration and management via the Home Assistant UI.
 
 ## Installation
-1. Copy the `ha_isin_sensor` folder into your Home Assistant `custom_components` directory.
+1. Copy the `mini-stock-pocket` folder into your Home Assistant `custom_components` directory.
 2. Restart Home Assistant.
-3. Add the integration via the Home Assistant UI by navigating to **Settings > Devices & Services > Add Integration** and searching for "ISIN Sensor".
+3. Add the integration via the Home Assistant UI by navigating to **Settings > Devices & Services > Add Integration** and searching for "Mini Stock Pocket".
 
 ## Configuration
 ### Adding a Hub
