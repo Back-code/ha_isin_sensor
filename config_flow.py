@@ -147,11 +147,6 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
                 vol.Required("isin"): str,
                 vol.Required("name"): str,
                 vol.Optional("add_more_sensors", default=False): bool,
-            },
-            description_placeholders={
-                "isin": "ISIN (z. B. DE000BASF111)",
-                "name": "Name des Sensors",
-                "add_more_sensors": "Weitere Sensoren hinzufügen"
             }
         )
 
@@ -159,20 +154,15 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
             # Validate ISIN
             if not await is_valid_isin(user_input["isin"]):
                 return self.async_show_form(
-                    step_id="edit_sensors",
+                    step_id="edit_sensor",
                     data_schema=data_schema,
-                    description_placeholders={
-                        "isin": "isin",
-                        "name": "name",
-                        "add_more_sensors": "add_more_sensors"
-                        },
                     errors={"isin": "invalid_isin"},
                 )
 
             # Check for duplicate ISINs
             if any(sensor["isin"] == user_input["isin"] for sensor in sensors):
                 return self.async_show_form(
-                    step_id="edit_sensors",
+                    step_id="edit_sensor",
                     data_schema=data_schema,
                     errors={"isin": "isin_already_exists"},
                 )
@@ -200,12 +190,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
             return self.async_create_entry(title="", data={})
 
         return self.async_show_form(
-            step_id="edit_sensors",
+            step_id="edit_sensor",
             data_schema=data_schema,
-            description_placeholders={
-                "isin": "isin",
-                "name": "name",
-                "add_more_sensors": "add_more_sensors"
-            },
             errors={}
         )

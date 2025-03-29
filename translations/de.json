@@ -32,20 +32,7 @@
   },
   "options": {
     "step": {
-      "init": {
-        "title": "Aktie hinzufügen",
-        "description": "Fügen Sie eine neue Aktie hinzu.",
-        "data": {
-          "isin": "ISIN (z. B. DE000BASF111)",
-          "name": "Name der Aktie",
-          "add_more_sensors": "Weitere Aktie hinzufügen"
-        },
-        "errors": {
-          "isin_already_exists": "Die ISIN ist bereits vorhanden.",
-          "invalid_isin": "Die eingegebene ISIN ist ungültig."
-        }
-      },
-      "edit_sensors": {
+      "edit_sensor": {
         "title": "Aktien bearbeiten",
         "description": "Bearbeiten Sie die Aktien in Ihrem Depot.",
         "data": {
