@@ -7,10 +7,12 @@ Stock Sensors for Home Assistant
 The `ha_isin_sensor` integration allows you to track stock prices and related information using ISIN (International Securities Identification Number) codes. This integration fetches real-time stock data and displays it as sensors in Home Assistant.
 
 ## Features
-- Add multiple stocks to a hub using their ISIN codes.
-- Fetch real-time stock prices and additional details such as currency, market, and price changes.
-- Organize stocks into hubs for better management.
-- Supports configuration via the Home Assistant UI.
+- **Add Stocks**: Add multiple stocks to a hub using their ISIN codes.
+- **Real-Time Data**: Fetch real-time stock prices and additional details such as currency, market, and price changes.
+- **Portfolio Management**: Organize stocks into hubs for better management.
+- **Edit Stocks**: Update stock quantities or add more stocks to an existing hub.
+- **Delete Stocks**: Remove stocks from your portfolio.
+- **Configuration via UI**: Supports configuration and management via the Home Assistant UI.
 
 ## Installation
 1. Copy the `ha_isin_sensor` folder into your Home Assistant `custom_components` directory.
@@ -20,10 +22,15 @@ The `ha_isin_sensor` integration allows you to track stock prices and related in
 ## Configuration
 ### Adding a Hub
 1. Provide a unique name for your hub.
-2. Add stocks by entering their ISIN codes and names.
+2. Add stocks by entering their ISIN codes, names, and quantities.
 
 ### Editing Stocks
-You can edit or add more stocks to an existing hub via the integration's options.
+You can edit or add more stocks to an existing hub via the integration's options:
+- **Edit Stock Quantity**: Update the number of stocks for a specific ISIN.
+- **Add More Stocks**: Add additional stocks to your portfolio.
+
+### Deleting Stocks
+Remove a stock from your portfolio by selecting it in the options menu.
 
 ## Sensor Attributes
 Each sensor provides the following attributes:
@@ -43,9 +50,13 @@ Each sensor provides the following attributes:
 - **Price Change Date**: The date of the last price change.
 - **Currency**: The currency of the stock price.
 - **Currency Sign**: The symbol of the currency.
+- **Quantity**: The number of stocks in your portfolio.
+- **Total Value**: The total value of the stock (price × quantity).
 
 ## Example Use Case
-Monitor your stock portfolio directly in Home Assistant and create automations based on stock price changes.
+Monitor your stock portfolio directly in Home Assistant and create automations based on stock price changes. For example:
+- Send a notification when a stock price exceeds a certain threshold.
+- Trigger automations based on percentage changes in stock prices.
 
 ## Troubleshooting
 If you encounter issues:
