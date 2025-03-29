@@ -135,9 +135,9 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
 
     async def async_step_init(self, user_input=None):
         """Manage the options for the integration."""
-        return await self.async_step_edit_sensors()
+        return await self.async_step_edit_sensor()
 
-    async def async_step_edit_sensors(self, user_input=None):
+    async def async_step_edit_sensor(self, user_input=None):
         """Edit the sensors in the hub."""
         config_entry = self.hass.config_entries.async_get_entry(self.config_entry_id)
         sensors = config_entry.data.get("sensors", [])
@@ -172,7 +172,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
 
             # Check if the user wants to add more sensors
             if user_input.get("add_more_sensors"):
-                return await self.async_step_edit_sensors()
+                return await self.async_step_edit_sensor()
             
             # Logging der aktualisierten Daten
             _LOGGER.debug("Updated sensors: %s", sensors)
