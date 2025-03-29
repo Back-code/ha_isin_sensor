@@ -39,6 +39,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def __init__(self):
         """Initialize the config flow."""
         self.hub_name = None
+        self.update_interval = None
         self.sensors = []
 
     async def async_step_user(self, user_input=None):
@@ -46,6 +47,9 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         data_schema = vol.Schema(
             {
                 vol.Required("hub_name"): str,
+                vol.Required("update_interval", default=60): vol.All(
+                    vol.Coerce(int), vol.Range(min=5, max=3600)
+                ),  # Intervall in Sekunden (5 Sekunden bis 1 Stunde)
             }
         )
 
@@ -55,6 +59,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 return self.async_abort(reason="hub_already_exists")
 
             self.hub_name = user_input["hub_name"]
+            self.update_interval = user_input["update_interval"]
             self.sensors = []  # Initialize sensors as an empty list
             return await self.async_step_add_sensor()
 
@@ -101,7 +106,11 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             # Finalize the entry creation
             return self.async_create_entry(
                 title=self.hub_name,
-                data={"hub_name": self.hub_name, "sensors": self.sensors},
+                data={
+                    "hub_name": self.hub_name,
+                    "update_interval": self.update_interval,  # Speichere das Intervall
+                    "sensors": self.sensors,
+                },
             )
 
         return self.async_show_form(
