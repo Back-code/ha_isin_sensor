@@ -4,11 +4,8 @@
   "version": "0.1.8",
   "config_flow": true,
   "documentation": "https://github.com/Back-code/ha_isin_sensor",
-  "integration_type": "hub",
+  "integration_type": "entity",
   "issue_tracker": "https://github.com/Back-code/ha_isin_sensor/issues",
-  "dependencies": [],
-  "requirements": [],
   "codeowners": ["@Back-code"],
-  "translations": ["translations"],
-  "icon": "https://raw.githubusercontent.com/Back-code/ha_isin_sensor/refs/heads/main/icons/icon.png"
+  "translations": ["translations"]
 }
