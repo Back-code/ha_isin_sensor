@@ -177,12 +177,13 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
             # Logging der aktualisierten Daten
             _LOGGER.debug("Updated sensors: %s", sensors)
 
-            # Speichere die aktualisierten Sensoren in den Config-Entry-Daten
+            # Speichere die aktualisierten Sensoren in den Config-Entry-Daten und Optionen
             self.hass.config_entries.async_update_entry(
                 config_entry,
                 data={**config_entry.data, "sensors": sensors},
+                options={**config_entry.options, "sensors": sensors},
             )
-            _LOGGER.debug("Config entry updated: %s", config_entry.data)
+            _LOGGER.debug("Config entry updated with sensors: %s", sensors)
 
             # Reload the config entry to apply changes
             await self.hass.config_entries.async_reload(config_entry.entry_id)

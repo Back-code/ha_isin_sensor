@@ -27,7 +27,16 @@ async def async_setup(hass: HomeAssistant, config: dict):
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up the ISIN Sensor integration from a config entry."""
     hub_name = entry.data["hub_name"]
-    sensors = entry.options.get("sensors", entry.data.get("sensors", []))  # Optionen berücksichtigen
+    sensors = entry.data.get("sensors", [])
+
+    # Synchronisiere Optionen mit Daten
+    if entry.options:
+        sensors = entry.options.get("sensors", sensors)
+# Aktualisiere config_entry.data mit den Optionen
+        hass.config_entries.async_update_entry(
+            entry,
+            data={**entry.data, "sensors": sensors},
+        )
 
     _LOGGER.debug("Setting up hub: %s with sensors: %s", hub_name, sensors)
 
@@ -38,7 +47,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         # Forward the entry setup to the sensor platform
         await hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
     except Exception as e:
-        # Log the error and raise ConfigEntryNotReady if setup fails
         hass.data[DOMAIN].pop(hub_name, None)
         raise ConfigEntryNotReady(f"Error setting up ISIN Sensor: {e}")
 
@@ -67,7 +75,7 @@ async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
     # Update the config entry data
     hass.config_entries.async_update_entry(
         entry,
-        data={**entry.data, "sensors": sensors},
+        data={**entry.data, "sensors": sensors},  # Synchronisiere die Sensoren mit "data"
     )
 
     # Reload the entry to apply changes
@@ -80,10 +88,10 @@ async def async_update_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
 
     _LOGGER.debug("Updating hub: %s with sensors: %s", hub_name, sensors)
 
-    # Aktualisiere die Sensoren im Hub
+    # Update the hub with the new sensors
     if hub_name in hass.data[DOMAIN]:
         hass.data[DOMAIN][hub_name].update_sensors(sensors)
 
-    # Lade die Sensor-Plattform neu, um die neuen Sensoren zu registrieren
+    # Reload the sensor platform to apply changes
     await hass.config_entries.async_forward_entry_unload(entry, "sensor")
     await hass.config_entries.async_forward_entry_setup(entry, "sensor")
