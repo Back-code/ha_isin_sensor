@@ -36,6 +36,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         hass.config_entries.async_update_entry(
             entry,
             data={**entry.data, "sensors": sensors},
+            options={**entry.options, "sensors": sensors},  # Synchronisiere die Sensoren mit "options"
         )
 
     _LOGGER.debug("Setting up hub: %s with sensors: %s", hub_name, sensors)
@@ -76,6 +77,7 @@ async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
     hass.config_entries.async_update_entry(
         entry,
         data={**entry.data, "sensors": sensors},  # Synchronisiere die Sensoren mit "data"
+        options={**entry.options, "sensors": sensors},  # Synchronisiere die Sensoren mit "options"
     )
 
     # Reload the entry to apply changes

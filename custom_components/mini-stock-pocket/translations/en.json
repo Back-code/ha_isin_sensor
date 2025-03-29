@@ -18,6 +18,7 @@
         "data": {
           "isin": "ISIN (e.g., DE000BASF111)",
           "name": "Stock Name",
+          "quantity": "Number of Stocks",
           "add_more_sensors": "Add another stock"
         },
         "errors": {
@@ -32,6 +33,27 @@
   },
   "options": {
     "step": {
+      "init": {
+        "title": "Edit Options",
+        "description": "Select an action.",
+        "data": {
+          "action": "Action"
+        }
+      },
+      "add_sensor": {
+        "title": "Add Stock",
+        "description": "Add a new stock.",
+        "data": {
+          "isin": "ISIN (e.g., DE000BASF111)",
+          "name": "Stock Name",
+          "quantity": "Number of Stocks",
+          "add_more_sensors": "Add another stock"
+        },
+        "errors": {
+          "isin_already_exists": "The ISIN already exists.",
+          "invalid_isin": "The entered ISIN is invalid."
+        }
+      },
       "edit_sensor": {
         "title": "Edit Stocks",
         "description": "Edit the stocks in your portfolio.",
@@ -43,6 +65,27 @@
         "errors": {
           "isin_already_exists": "The ISIN already exists.",
           "invalid_isin": "The entered ISIN is invalid."
+        }
+      },
+      "edit_quantity": {
+        "title": "Edit Stock Quantity",
+        "description": "Select a stock.",
+        "data": {
+          "isin": "Stocks in Portfolio"
+        }
+      },
+      "edit_quantity_value": {
+        "title": "Edit Stock Quantity",
+        "description": "Selected Stock:   >>>   {selected_stock}",
+        "data": {
+          "quantity": "Quantity"
+        }
+      },
+      "delete_sensor": {
+        "title": "Delete Stock",
+        "description": "Select a stock to delete.",
+        "data": {
+          "isin": "Stocks in Portfolio"
         }
       }
     }

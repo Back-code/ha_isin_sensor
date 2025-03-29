@@ -3,6 +3,7 @@ import aiohttp
 import asyncio
 import logging
 from homeassistant.components.sensor import SensorEntity
+from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,7 +25,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             _LOGGER.error("Invalid sensor configuration: %s", sensor)
             continue
         _LOGGER.debug("Registering sensor: %s with ISIN: %s for hub: %s", sensor["name"], sensor["isin"], hub_name)
-        entities.append(ISINSensor(sensor["isin"], sensor["name"], hub_name))
+        entities.append(ISINSensor(sensor["isin"], sensor["name"], hub_name, sensor.get("quantity", 0)))
 
     if entities:
         async_add_entities(entities, update_before_add=True)
@@ -34,23 +35,34 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 class ISINSensor(SensorEntity):
     """Representation of an ISIN Sensor."""
 
-    def __init__(self, isin, name, hub_name):
+    def __init__(self, isin, name, hub_name, quantity):
         """Initialize the sensor."""
         self._isin = isin
         self._name = name
-        self._hub_name = hub_name  # Verknüpfe den Sensor mit dem Hub
+        self._hub_name = hub_name
+        self._quantity = quantity
         self._state = None
         self._attributes = {}
+        self._total_value = None  # Neuer Zustand für price * quantity
+
+    #async def async_added_to_hass(self):
+    #    """Create a helper for the quantity."""
+        # Ersetze ungültige Zeichen in hub_name und name
+    #   sanitized_hub_name = self._hub_name.replace(" ", "_").replace("-", "_").lower()
+    #   sanitized_name = self._name.replace(" ", "_").replace("-", "_").lower()
+    #   helper_name = f"{sanitized_hub_name}_{sanitized_name}_quantity"
+    #    if not self.hass.states.get(helper_name):
+    #        self.hass.states.async_set(helper_name, self._quantity, {"unit_of_measurement": "pcs"})
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self._hub_name} - {self._name}"  # Sensorname enthält den Hub-Namen
+        return f"{self._hub_name} - {self._name}"
 
     @property
     def unique_id(self):
         """Return the unique ID of the sensor."""
-        return f"{self._hub_name}_{self._isin}"  # Eindeutige ID enthält den Hub-Namen
+        return self._isin.upper()  # ISIN immer in Großbuchstaben
 
     @property
     def state(self):
@@ -65,7 +77,9 @@ class ISINSensor(SensorEntity):
     @property
     def extra_state_attributes(self):
         """Return the sensor attributes."""
-        return self._attributes
+        attributes = self._attributes.copy()
+        attributes["total_value"] = self._total_value  # Füge den berechneten Wert hinzu
+        return attributes
 
     @property
     def should_poll(self):
@@ -89,6 +103,7 @@ class ISINSensor(SensorEntity):
 
                     # Update state and attributes
                     self._state = data.get("price")
+                    self._total_value = self._state * self._quantity if self._state is not None else None
                     self._attributes = {
                         "name": data.get("name"),
                         "close": data.get("close"),
@@ -105,6 +120,7 @@ class ISINSensor(SensorEntity):
                         "currencySign": data.get("currencySign"),
                         "changePercent": data.get("changePercent"),
                         "changeAbsolute": data.get("changeAbsolute"),
+                        "quantity": self._quantity,
                     }
                     _LOGGER.debug("Updated sensor %s with data: %s", self._isin, data)
 
