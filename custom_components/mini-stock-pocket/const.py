@@ -1,2 +1,2 @@
 """Constants for ISIN Sensor integration."""
-DOMAIN = "stock-pocket"
+DOMAIN = "mini-stock-pocket"
