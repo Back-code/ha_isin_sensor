@@ -141,7 +141,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
         """Edit the sensors in the hub."""
         config_entry = self.hass.config_entries.async_get_entry(self.config_entry_id)
         sensors = config_entry.data.get("sensors", [])
-
+        step_id="edit_sensor",
         data_schema = vol.Schema(
             {
                 vol.Required("isin"): str,
