@@ -7,6 +7,5 @@
   "integration_type": "hub",
   "issue_tracker": "https://github.com/Back-code/ha_isin_sensor/issues",
   "codeowners": ["@Back-code"],
-  "translations": ["translations"],
-  "dependencies": ["http"]  // Abhängigkeit für Zeitsteuerung
+  "translations": ["translations"]
 }
