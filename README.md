@@ -13,6 +13,10 @@ The `Mini Stock Pocket` integration allows you to track stock prices and related
 - **Edit Stocks**: Update stock quantities or add more stocks to an existing hub.
 - **Delete Stocks**: Remove stocks from your portfolio.
 - **Configuration via UI**: Supports configuration and management via the Home Assistant UI.
+- **Dynamic Attributes**: Automatically adjusts sensor attributes based on the type of financial instrument (e.g., Share, Fund, Bond).
+- **Custom Quantity Tracking**: Tracks the quantity of stocks in your portfolio and calculates the total value.
+- **Localized Translations**: Supports multiple languages, including English and German.
+- **Flexible Options Flow**: Allows editing, adding, or deleting stocks directly from the integration's options menu.
 
 ## Installation
 1. Copy the `mini-stock-pocket` folder into your Home Assistant `custom_components` directory.
@@ -52,6 +56,15 @@ Each sensor provides the following attributes:
 - **Currency Sign**: The symbol of the currency.
 - **Quantity**: The number of stocks in your portfolio.
 - **Total Value**: The total value of the stock (price × quantity).
+
+## Dynamic Attributes Based on Instrument Type
+The integration dynamically adjusts the attributes based on the type of financial instrument:
+- **Shares**:
+  - Includes bid/ask prices, change percentages, and market details.
+- **Funds/ETFs**:
+  - Includes closing prices, currency, and market details.
+- **Bonds**:
+  - Includes bid/ask prices, percentage trading, and additional bond-specific details.
 
 ## Example Use Case
 Monitor your stock portfolio directly in Home Assistant and create automations based on stock price changes. For example:

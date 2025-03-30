@@ -13,13 +13,13 @@
         }
       },
       "add_sensor": {
-        "title": "Aktie hinzufügen",
-        "description": "Fügen Sie eine neue Aktie hinzu.",
+        "title": "Wertpapier hinzufügen",
+        "description": "Füge ein neues Wertpapier hinzu.",
         "data": {
           "isin": "ISIN (z. B. DE000BASF111)",
-          "name": "Name der Aktie",
-          "quantity": "Anzahl der Aktien",
-          "add_more_sensors": "Weitere Aktie hinzufügen"
+          "name": "Name",
+          "quantity": "Anzahl",
+          "add_more_sensors": "Weiteres Wertpapier hinzufügen"
         },
         "errors": {
           "isin_already_exists": "Die ISIN ist bereits vorhanden.",
@@ -41,13 +41,13 @@
         }
       },
       "add_sensor": {
-        "title": "Aktie hinzufügen",
-        "description": "Fügen Sie eine neue Aktie hinzu.",
+        "title": "Wertpapier hinzufügen",
+        "description": "Fügen ein neues Wertpapier hinzu.",
         "data": {
           "isin": "ISIN (z. B. DE000BASF111)",
-          "name": "Name der Aktie",
+          "name": "Name",
           "quantity": "Anzahl",
-          "add_more_sensors": "Weitere Aktie hinzufügen"
+          "add_more_sensors": "Weiteres Wertpapier hinzufügen"
         },
         "errors": {
           "isin_already_exists": "Die ISIN ist bereits vorhanden.",
@@ -55,24 +55,24 @@
         }
       },
       "edit_quantity": {
-        "title": "Aktienanzahl bearbeiten",
-        "description": "Wähle eine Aktie aus.",
+        "title": "Wertpapieranzahl bearbeiten",
+        "description": "Wähle ein Wertpapier aus.",
         "data": {
-          "isin": "Aktien im Depot"
+          "isin": "Wertpapier im Depot"
         }
       },
       "edit_quantity_value": {
-        "title": "Aktien Anzahl bearbeiten",
-        "description": "Gewählte Aktie:   >>>   {selected_stock}",
+        "title": "Wertpapier Anzahl bearbeiten",
+        "description": "Gewähltes Wertpapier:   >>>   {selected_stock}",
         "data": {
           "quantity": "Anzahl"
         }
       },
       "delete_sensor": {
-        "title": "Aktie löschen",
-        "description": "Wählen Sie eine Aktie aus, die gelöscht werden soll.",
+        "title": "Wertpapier löschen",
+        "description": "Wähle ein Wertpapier aus, das gelöscht werden soll.",
         "data": {
-          "isin": "Aktien im Depot"
+          "isin": "Wertpapier im Depot"
         }
       }
     }

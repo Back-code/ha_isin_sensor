@@ -102,26 +102,81 @@ class ISINSensor(SensorEntity):
                         return
 
                     # Update state and attributes
-                    self._state = data.get("price")
+                    self._state = data.get('price')
                     self._total_value = self._state * self._quantity if self._state is not None else None
-                    self._attributes = {
-                        "name": data.get("name"),
-                        "close": data.get("close"),
-                        "bid": data.get("bid"),
-                        "bidDate": data.get("bidDate"),
-                        "ask": data.get("ask"),
-                        "askDate": data.get("askDate"),
-                        "wkn": data.get("wkn"),
-                        "isin": data.get("isin"),
-                        "internalIsin": data.get("internalIsin"),
-                        "stockMarket": data.get("stockMarket"),
-                        "priceChangeDate": data.get("priceChangeDate"),
-                        "currency": data.get("currency"),
-                        "currencySign": data.get("currencySign"),
-                        "changePercent": data.get("changePercent"),
-                        "changeAbsolute": data.get("changeAbsolute"),
-                        "quantity": self._quantity,
-                    }
+
+                    # Dynamische Attributerstellung basierend auf instrumentTypeDisplayName
+                    instrument_type = data.get("instrumentType", {}).get("mainType")
+                    _LOGGER.debug("Instrument type for ISIN %s: %s", self._isin, instrument_type)
+
+                    if instrument_type == "Share": # Aktie
+                        self._attributes = {
+                            "name": data.get("name"),
+                            "instrumentTypeDisplayName": data.get("instrumentTypeDisplayName"),
+                            "close": data.get("close"),
+                            "changePercent": data.get("changePercent"),
+                            "changeAbsolute": data.get("changeAbsolute"),
+                            "bid": data.get("bid"),
+                            "bidDate": data.get("bidDate"),
+                            "ask": data.get("ask"),
+                            "askDate": data.get("askDate"),
+                            "wkn": data.get("wkn"),
+                            "isin": data.get("isin"),
+                            "internalIsin": data.get("internalIsin"),
+                            "stockMarket": data.get("stockMarket"),
+                            "priceChangeDate": data.get("priceChangeDate"),
+                            "currency": data.get("currency"),
+                            "currencySign": data.get("currencySign"),
+                            "quantity": self._quantity,
+                        }
+                    elif instrument_type == "Fund": # Fonds & ETF
+                        self._attributes = {
+                            "name": data.get("name"),
+                            "instrumentTypeDisplayName": data.get("instrumentTypeDisplayName"),
+                            "close": data.get("close"),
+                            "changePercent": data.get("changePercent"),
+                            "changeAbsolute": data.get("changeAbsolute"),
+                            "wkn": data.get("wkn"),
+                            "isin": data.get("isin"),
+                            "internalIsin": data.get("internalIsin"),
+                            "stockMarket": data.get("stockMarket"),
+                            "priceChangeDate": data.get("priceChangeDate"),
+                            "currency": data.get("currency"),
+                            "currencySign": data.get("currencySign"),
+                            "quantity": self._quantity,
+                        }
+
+                    elif instrument_type == "Bond": # Anleihe
+                        self._attributes = {
+                            "name": data.get("name"),
+                            "instrumentTypeDisplayName": data.get("instrumentTypeDisplayName"),
+                            "bid": data.get("bid"),
+                            "bidDate": data.get("bidDate"),
+                            "ask": data.get("ask"),
+                            "askDate": data.get("askDate"),
+                            "wkn": data.get("wkn"),
+                            "isin": data.get("isin"),
+                            "internalIsin": data.get("internalIsin"),
+                            "stockMarket": data.get("stockMarket"),
+                            "priceChangeDate": data.get("priceChangeDate"),
+                            "currency": data.get("currency"),
+                            "currencySign": data.get("currencySign"),
+                            "quantity": self._quantity,
+                        }
+                    else:  # Standardfall oder unbekannter Typ
+                        self._attributes = {
+                            "name": data.get("name"),
+                            "currency": data.get("currency"),
+                            "priceChangeDate": data.get("priceChangeDate"),
+                            "wkn": data.get("wkn"),
+                            "isin": data.get("isin"),
+                            "internalIsin": data.get("internalIsin"),
+                            "stockMarket": data.get("stockMarket"),
+                            "currency": data.get("currency"),
+                            "currencySign": data.get("currencySign"), 
+                            "quantity": self._quantity,
+                        }
+                    
                     _LOGGER.debug("Updated sensor %s with data: %s", self._isin, data)
 
         except aiohttp.ClientError as e:

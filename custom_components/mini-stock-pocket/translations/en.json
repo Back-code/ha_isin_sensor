@@ -4,7 +4,7 @@
     "step": {
       "user": {
         "title": "Set up a new portfolio",
-        "description": "Please enter the name of the portfolio you want to set up.",
+        "description": "Please enter the name of the portfolio.",
         "data": {
           "hub_name": "Portfolio Name"
         },
@@ -17,8 +17,8 @@
         "description": "Add a new stock.",
         "data": {
           "isin": "ISIN (e.g., DE000BASF111)",
-          "name": "Stock Name",
-          "quantity": "Number of Stocks",
+          "name": "Name",
+          "quantity": "Quantity",
           "add_more_sensors": "Add another stock"
         },
         "errors": {
@@ -45,8 +45,8 @@
         "description": "Add a new stock.",
         "data": {
           "isin": "ISIN (e.g., DE000BASF111)",
-          "name": "Stock Name",
-          "quantity": "Number of Stocks",
+          "name": "Name",
+          "quantity": "Quantity",
           "add_more_sensors": "Add another stock"
         },
         "errors": {

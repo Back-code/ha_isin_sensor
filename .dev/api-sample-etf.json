@@ -1,0 +1,59 @@
+{
+  "id": 239766,
+  "name": "Amundi MSCI World II UCITS ETF Dist",
+  "price": 331.88,
+  "close": 339.57000000,
+  "changePercent": -2.2646287952410401389993226700,
+  "changeAbsolute": -7.69000000,
+  "instrumentType": {
+    "mainType": "Fund",
+    "subType": "ETF"
+  },
+  "instrumentTypeDisplayName": "ETF",
+  "wkn": "LYX0AG",
+  "isin": "FR0010315770",
+  "internalIsin": "FR0010315770",
+  "stockMarket": "Direkthandel",
+  "priceChangeDate": "2025-03-28T21:52:59+01:00",
+  "currency": "EUR",
+  "currencySign": "EUR",
+  "pushSymbol": "X000ADB02002538768",
+  "labels": {
+    "buttonWatch": "Beobachten"
+  },
+  "webtrekkPixelSettings": {
+    "observe": "beobachten__header__sh.content.link_intern"
+  },
+  "formatDefinitions": [
+    {
+      "propertyName": "price",
+      "formatString": "0,0.00[00]",
+      "valueType": "Number",
+      "name": "TwoToFourDecimals"
+    },
+    {
+      "propertyName": "bid",
+      "formatString": "0,0.00[00]",
+      "valueType": "Number",
+      "name": "TwoToFourDecimals"
+    },
+    {
+      "propertyName": "ask",
+      "formatString": "0,0.00[00]",
+      "valueType": "Number",
+      "name": "TwoToFourDecimals"
+    },
+    {
+      "propertyName": "changePercent",
+      "formatString": "0,0.00",
+      "valueType": "Number",
+      "name": "TwoDecimals"
+    },
+    {
+      "propertyName": "changeAbsolute",
+      "formatString": "0,0.00[00]",
+      "valueType": "Number",
+      "name": "TwoToFourDecimals"
+    }
+  ]
+}
