@@ -1,10 +1,13 @@
 # Mini Stock Pocket
+<img src="images/Mini Stock Pocket Logo fav.png" alt="Mini Stock Pocket" width="200"/>
 Stock Sensors for Home Assistant
-![Mini Stock Pocket](<images/Mini Stock Pocket Logo fav.png>)
 
------------ under construction -----------
+## HACS
+----------- HACS under construction -----------
+
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Back-code&repository=https%3A%2F%2Fgithub.com%2FBack-code%2Fha_isin_sensor&category=Stock)
------------ under construction -----------
+
+----------- HACS under construction -----------
 
 ## Overview
 The `Mini Stock Pocket` integration allows you to track stock prices and related information using ISIN (International Securities Identification Number) codes. This integration fetches real-time stock data and displays it as sensors in Home Assistant.
