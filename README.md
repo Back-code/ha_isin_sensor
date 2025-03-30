@@ -26,7 +26,9 @@ The `Mini Stock Pocket` integration allows you to track stock prices and related
 ## Configuration
 ### Adding a Hub
 1. Provide a unique name for your hub.
+![alt text]({33B86450-7463-4900-ABF3-B344DF95C4AB}.png)
 2. Add stocks by entering their ISIN codes, names, and quantities.
+![alt text](image.png)
 
 ### Editing Stocks
 You can edit or add more stocks to an existing hub via the integration's options:
