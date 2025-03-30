@@ -38,6 +38,11 @@
         "description": "Wählen Sie eine Aktion aus.",
         "data": {
           "action": "Aktion"
+        },
+        "options": {
+          "add_stock": "Neues Wertpapier hinzufügen",
+          "edit_quantity": "Wertpapieranzahl ändern",
+          "delete_stock": "Wertpapier löschen"
         }
       },
       "add_sensor": {
@@ -73,6 +78,9 @@
         "description": "Wähle ein Wertpapier aus, das gelöscht werden soll.",
         "data": {
           "isin": "Wertpapier im Depot"
+        },
+        "errors": {
+          "sensor_not_found": "Das ausgewählte Wertpapier wurde nicht gefunden."
         }
       }
     }

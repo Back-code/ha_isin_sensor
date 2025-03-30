@@ -38,6 +38,11 @@
         "description": "Select an action.",
         "data": {
           "action": "Action"
+        },
+        "options": {
+          "add_stock": "Add a new stock",
+          "edit_quantity": "Edit stock quantity",
+          "delete_stock": "Delete stock"
         }
       },
       "add_sensor": {
@@ -86,6 +91,9 @@
         "description": "Select a stock to delete.",
         "data": {
           "isin": "Stocks in Portfolio"
+        },
+        "errors": {
+          "sensor_not_found": "The selected stock was not found."
         }
       }
     }
