@@ -1,5 +1,5 @@
 # Mini Stock Pocket
-<img src="images/Mini Stock Pocket Logo fav.png" alt="Mini Stock Pocket" width="200"/>
+<img src="images/Mini Stock Pocket Logo fav.png" alt="Mini Stock Pocket" width="260"/>
 Stock Sensors for Home Assistant
 
 ## HACS
