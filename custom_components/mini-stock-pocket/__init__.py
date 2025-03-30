@@ -2,6 +2,7 @@
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers import entity_registry as er
 from .const import DOMAIN
 import logging
 
@@ -56,6 +57,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload an ISIN Sensor config entry."""
     hub_name = entry.data["hub_name"]
+
+    # Entferne alle zugehörigen Entitäten aus dem Entity Registry
+    entity_registry = er.async_get(hass)
+    sensors = entry.data.get("sensors", [])
+    for sensor in sensors:
+        unique_id = sensor["isin"].upper()  # ISIN als unique_id
+        entity_entry = next(
+            (entry for entry in entity_registry.entities.values() if entry.unique_id == unique_id),
+            None
+        )
+        if entity_entry:
+            entity_registry.async_remove(entity_entry.entity_id)
 
     # Unload the sensor platform
     unload_ok = await hass.config_entries.async_forward_entry_unload(entry, "sensor")
