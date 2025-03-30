@@ -78,6 +78,7 @@ class ISINSensor(SensorEntity):
     def extra_state_attributes(self):
         """Return the sensor attributes."""
         attributes = self._attributes.copy()
+        attributes["quantity"] = round(self._quantity, 2)  # Rundung auf 2 Nachkommastellen
         attributes["total_value"] = self._total_value  # Füge den berechneten Wert hinzu
         return attributes
 

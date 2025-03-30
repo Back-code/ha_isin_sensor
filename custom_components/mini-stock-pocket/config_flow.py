@@ -5,6 +5,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers import config_validation as cv  # Import für Float-Validierung
 import logging
 from .const import DOMAIN
 
@@ -70,7 +71,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             {
                 vol.Required("isin"): str,
                 vol.Required("name"): str,
-                vol.Optional("quantity", default=0): int,  # Neues Feld hinzugefügt
+                vol.Optional("quantity", default=0.0): cv.positive_float,  # Ändere zu Float mit Validierung
                 vol.Optional("add_more_sensors", default=False): bool,
             }
         )
@@ -96,7 +97,7 @@ class ISINSensorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             self.sensors.append({
                 "isin": user_input["isin"],
                 "name": user_input["name"],
-                "quantity": user_input["quantity"],  # Speichere die Anzahl
+                "quantity": round(user_input["quantity"], 2),  # Rundung auf 2 Nachkommastellen
             })
 
             # Check if the user wants to add more sensors
@@ -172,7 +173,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
             {
                 vol.Required("isin"): str,
                 vol.Required("name"): str,
-                vol.Optional("quantity", default=0): int,  # Neues Feld hinzugefügt
+                vol.Optional("quantity", default=0.0): cv.positive_float,  # Ändere zu Float mit Validierung
                 vol.Optional("add_more_sensors", default=False): bool,
             }
         )
@@ -198,7 +199,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
             sensors.append({
                 "isin": user_input["isin"],
                 "name": user_input["name"],
-                "quantity": user_input["quantity"],  # Speichere die Anzahl
+                "quantity": round(user_input["quantity"], 2),  # Rundung auf 2 Nachkommastellen
             })
 
             # Update the config entry
@@ -260,7 +261,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
 
         if user_input is not None:
             # Update the quantity for the selected ISIN
-            selected_sensor["quantity"] = user_input["quantity"]
+            selected_sensor["quantity"] = round(user_input["quantity"], 2)  # Rundung auf 2 Nachkommastellen
 
             # Update the config entry
             self.hass.config_entries.async_update_entry(
@@ -273,7 +274,7 @@ class ISINSensorOptionsFlowHandler(config_entries.OptionsFlow):
         # Show the form to edit the quantity
         data_schema = vol.Schema(
             {
-                vol.Required("quantity", default=selected_sensor["quantity"]): int,
+                vol.Required("quantity", default=selected_sensor["quantity"]): cv.positive_float,  # Float-Validierung
             }
         )
         return self.async_show_form(
