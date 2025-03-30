@@ -85,3 +85,4 @@ If you encounter issues:
 ## Links
 - [Documentation](https://github.com/Back-code/ha_isin_sensor)
 - [Issue Tracker](https://github.com/Back-code/ha_isin_sensor/issues)
+- [API by ing.de](https://www.ing.de)
