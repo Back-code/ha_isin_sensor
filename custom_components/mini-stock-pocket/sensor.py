@@ -92,10 +92,11 @@ class ISINSensor(SensorEntity):
 
     async def async_update(self):
         """Fetch data from the API asynchronously."""
-        url = f"https://component-api.wertpapiere.ing.de/api/v1/components/instrumentheader/{self._isin}"
+        url_instrumentheader = f"https://component-api.wertpapiere.ing.de/api/v1/components/instrumentheader/{self._isin}"
+        url_priceinformation = f"https://component-api.wertpapiere.ing.de/api/v1/components/priceinformation/{self._isin}"
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.get(url, timeout=10) as response:
+                async with session.get(url_instrumentheader, timeout=10) as response:
                     if response.status != 200:
                         _LOGGER.warning("Non-200 response for ISIN %s: %s", self._isin, response.status)
                         return
@@ -182,6 +183,34 @@ class ISINSensor(SensorEntity):
                         }
                     
                     _LOGGER.debug("Updated sensor %s with data: %s", self._isin, data)
+
+                # Zweite API-Abfrage: priceinformation
+                if instrument_type in ["Share", "Bond"]:
+                    async with session.get(url_priceinformation, timeout=10) as response:
+                        if response.status != 200:
+                            _LOGGER.warning("Non-200 response for price information ISIN %s: %s", self._isin, response.status)
+                            return
+
+                        price_data = await response.json()
+                        if not price_data or "data" not in price_data:
+                            _LOGGER.warning("Invalid or empty price information for ISIN %s", self._isin)
+                            return
+
+                        # Zusätzliche Informationen aus der zweiten API-Antwort extrahieren
+                        daily_low = next((item["fieldValue"]["value"] for item in price_data.get("data", []) if item["id"] == "DailyLow"), None)
+                        daily_high = next((item["fieldValue"]["value"] for item in price_data.get("data", []) if item["id"] == "DailyHigh"), None)
+                        fifty_two_week_low = next((item["fieldValue"]["value"] for item in price_data.get("data", []) if item["id"] == "FiftyTwoWeekLow"), None)
+                        fifty_two_week_high = next((item["fieldValue"]["value"] for item in price_data.get("data", []) if item["id"] == "FiftyTwoWeekHigh"), None)
+
+                        # Zusätzliche Attribute hinzufügen Aktie & Anleihe
+                        self._attributes.update({
+                            "dailyLow": daily_low,
+                            "dailyHigh": daily_high,
+                            "fiftyTwoWeekLow": fifty_two_week_low,
+                            "fiftyTwoWeekHigh": fifty_two_week_high,
+                        })
+
+                        _LOGGER.debug("Updated sensor %s with price information: %s", self._isin, price_data)
 
         except aiohttp.ClientError as e:
             _LOGGER.error("Error fetching data for ISIN %s: %s", self._isin, e)

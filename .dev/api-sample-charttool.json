@@ -1,0 +1,217 @@
+{
+  "instrumentId": 115606002,
+  "valor": "115606002",
+  "chartId": "InstrumentChart115606002",
+  "chartType": "ChartToolChart",
+  "defaultChartPeriod": "OneYear",
+  "chartPeriods": [
+    "Intraday",
+    "OneWeek",
+    "OneMonth",
+    "OneYear",
+    "FiveYears",
+    "Maximum"
+  ],
+  "chartPeriodTranslations": [
+    {
+      "chartPeriod": "Intraday",
+      "translation": "Intraday",
+      "smartphoneTranslation": "Tag"
+    },
+    {
+      "chartPeriod": "OneWeek",
+      "translation": "1 Woche",
+      "smartphoneTranslation": "1 W"
+    },
+    {
+      "chartPeriod": "OneMonth",
+      "translation": "1 Monat",
+      "smartphoneTranslation": "1 M"
+    },
+    {
+      "chartPeriod": "OneYear",
+      "translation": "1 Jahr",
+      "smartphoneTranslation": "1 J"
+    },
+    {
+      "chartPeriod": "FiveYears",
+      "translation": "5 Jahre",
+      "smartphoneTranslation": "5 J"
+    },
+    {
+      "chartPeriod": "Maximum",
+      "translation": "Maximum",
+      "smartphoneTranslation": "Max"
+    }
+  ],
+  "pushChartPeriods": [
+    "ThirtyMinutes",
+    "OneHour",
+    "TwoHours",
+    "FourHours",
+    "Intraday"
+  ],
+  "pushChartPeriodTranslations": [
+    {
+      "chartPeriod": "ThirtyMinutes",
+      "translation": "30 Minuten",
+      "smartphoneTranslation": "30 min"
+    },
+    {
+      "chartPeriod": "OneHour",
+      "translation": "1 Stunde",
+      "smartphoneTranslation": "1 h"
+    },
+    {
+      "chartPeriod": "TwoHours",
+      "translation": "2 Stunden",
+      "smartphoneTranslation": "2 h"
+    },
+    {
+      "chartPeriod": "FourHours",
+      "translation": "4 Stunden",
+      "smartphoneTranslation": "4 h"
+    },
+    {
+      "chartPeriod": "Intraday",
+      "translation": "Intraday",
+      "smartphoneTranslation": "Tag"
+    }
+  ],
+  "chartIdentifier": "115606002,2779,814,,",
+  "pushChartIdentifier": "115606002,2779,814,X000ADB0200115606002,",
+  "instrumentType": {
+    "mainType": "Share"
+  },
+  "close": 33.655,
+  "benchmarks": [
+    {
+      "name": "DAX",
+      "chartDeliveryIdentifier": "3660_Valuation,113401404,3660,814"
+    },
+    {
+      "name": "TecDax",
+      "chartDeliveryIdentifier": "3660_Valuation,113401421,3660,814"
+    },
+    {
+      "name": "MDax",
+      "chartDeliveryIdentifier": "3660_Valuation,113401418,3660,814"
+    },
+    {
+      "name": "EURO STOXX 50",
+      "chartDeliveryIdentifier": "3660_Valuation,113401474,3660,814"
+    },
+    {
+      "name": "Dow Jones",
+      "chartDeliveryIdentifier": "3660_Valuation,113401411,3660,333"
+    },
+    {
+      "name": "NASDAQ 100",
+      "chartDeliveryIdentifier": "3660_Valuation,113401409,3660,333"
+    },
+    {
+      "name": "Nikkei 225",
+      "chartDeliveryIdentifier": "3660_Valuation,113401479,3660,534"
+    },
+    {
+      "name": "MSCI World",
+      "chartDeliveryIdentifier": "3660_Valuation,113401417,3660,333"
+    },
+    {
+      "name": "EUR/USD",
+      "chartDeliveryIdentifier": "1,946681,148,333"
+    },
+    {
+      "name": "Gold",
+      "chartDeliveryIdentifier": "178_Valuation,274702,178,333"
+    },
+    {
+      "name": "Öl Brent",
+      "chartDeliveryIdentifier": "2913_Valuation,274207,2913,333"
+    }
+  ],
+  "indications": {
+    "noindication": "Kein",
+    "momentum": "Momentum",
+    "macd": "MACD",
+    "rsi": "RSI",
+    "bollingerband": "Bollinger Bänder",
+    "slowstochastic": "Slow Stochastik",
+    "volume": "Volumen"
+  },
+  "movingAverageValues": {
+    "5": "5 Tage",
+    "20": "20 Tage",
+    "30": "30 Tage",
+    "38": "38 Tage",
+    "90": "90 Tage",
+    "100": "100 Tage",
+    "200": "200 Tage"
+  },
+  "exchanges": [
+    {
+      "exchangeCode": "TGT",
+      "exchangeName": "Direkthandel",
+      "quotationId": "115606002.2779.814",
+      "sortOrder": 0,
+      "currencyIsoCode": "EUR",
+      "currencySign": "EUR",
+      "currencyName": "Euro",
+      "bid": 33.755,
+      "ask": 33.83,
+      "last": 33.765,
+      "open": 33.5,
+      "close": 33.655,
+      "bidDate": "2025-03-31T20:25:11+02:00",
+      "askDate": "2025-03-31T20:25:11+02:00",
+      "date": "2025-03-31T20:22:07+02:00",
+      "spread": 0.075,
+      "spreadPercent": 0.22218930528810547,
+      "turnover": 2993132.47,
+      "volume": 89105,
+      "dailyHigh": 33.965,
+      "dailyLow": 33.275,
+      "pushSymbol": "X000ADB0200115606002"
+    },
+    {
+      "exchangeCode": "FRA",
+      "exchangeName": "Frankfurt",
+      "quotationId": "115606002.13.814",
+      "sortOrder": 0,
+      "currencyIsoCode": "EUR",
+      "currencySign": "EUR",
+      "currencyName": "Euro",
+      "bid": 33.665,
+      "ask": 33.835,
+      "last": 33.64,
+      "open": 33.36,
+      "close": 33.83,
+      "bidDate": "2025-03-31T19:57:05+02:00",
+      "askDate": "2025-03-31T19:57:05+02:00",
+      "date": "2025-03-31T19:57:03+02:00",
+      "spread": 0.17,
+      "spreadPercent": 0.5049754938363285,
+      "turnover": 486510.63,
+      "volume": 14509,
+      "dailyHigh": 33.91,
+      "dailyLow": 33.29,
+      "pushSymbol": "X00000A0200115606002"
+    }
+    // Weitere Börsen folgen...
+  ],
+  "webtrekkPixelSettings": {
+    "realtime": "realtime__chart_tool__sh.content.link_checkbox",
+    "intraday": "intraday__chart_tool__sh.content.link_tab",
+    "oneWeek": "1w__chart_tool__sh.content.link_tab",
+    "oneMonth": "1m__chart_tool__sh.content.link_tab",
+    "oneYear": "1j__chart_tool__sh.content.link_tab",
+    "threeYears": "3j__chart_tool__sh.content.link_tab",
+    "fiveYears": "5j__chart_tool__sh.content.link_tab",
+    "maximum": "max__chart_tool__sh.content.link_tab",
+    "thirtyMinutes": "30min__chart_tool__sh.content.link_tab",
+    "oneHour": "1h__chart_tool__sh.content.link_tab",
+    "twoHours": "2h__chart_tool__sh.content.link_tab",
+    "fourHours": "4h__chart_tool__sh.content.link_tab",
+    "exchange": "handelsplatz__chart_tool__sh.content.link_dropdown"
+  }
+}

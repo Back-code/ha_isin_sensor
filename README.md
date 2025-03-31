@@ -63,6 +63,13 @@ Each sensor provides the following attributes:
 - **Quantity**: The number of stocks in your portfolio.
 - **Total Value**: The total value of the stock (price × quantity).
 
+### Additional Attributes for Shares and Bonds
+The following attributes are dynamically added for stocks of type `Share` and `Bond`:
+- **Daily Low**: The lowest price of the stock for the current day.
+- **Daily High**: The highest price of the stock for the current day.
+- **52-Week Low**: The lowest price of the stock in the last 52 weeks.
+- **52-Week High**: The highest price of the stock in the last 52 weeks.
+
 ## Dynamic Attributes Based on Instrument Type
 The integration dynamically adjusts the attributes based on the type of financial instrument:
 - **Shares**:

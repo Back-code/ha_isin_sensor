@@ -1,7 +1,7 @@
 {
   "domain": "mini-stock-pocket",
   "name": "Mini Stock Pocket - ISIN Sensors",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "config_flow": true,
   "documentation": "https://github.com/Back-code/ha_isin_sensor",
   "integration_type": "hub",
