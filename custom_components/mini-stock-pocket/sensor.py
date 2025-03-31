@@ -2,11 +2,14 @@
 import aiohttp
 import asyncio
 import logging
+from datetime import timedelta  # Import für SCAN_INTERVAL
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
+
+SCAN_INTERVAL = timedelta(minutes=5)  # Setze das Abfrageintervall auf 5 Minuten
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Set up ISIN Sensor from a config entry."""
