@@ -1,0 +1,6 @@
+# Ignore all files
+*
+
+# Exclude specific folders and files
+!.gitignore
+!.dev/
