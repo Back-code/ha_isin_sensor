@@ -10,7 +10,7 @@ Stock Sensors for Home Assistant
 ----------- HACS under construction -----------
 
 ## Overview
-The `Mini Stock Pocket` integration allows you to track stock prices and related information using ISIN (International Securities Identification Number) codes. This integration fetches real-time stock data and displays it as sensors in Home Assistant.
+The `Mini Stock Pocket` integration allows you to track stock prices and related information using ISIN (International Securities Identification Number) codes. This integration fetches every 5 minutes stock data and displays it as sensors in Home Assistant.
 
 ## Features
 - **Add Stocks**: Add multiple stocks to a hub using their ISIN codes.
