@@ -168,6 +168,23 @@ class ISINSensor(SensorEntity):
                             "currencySign": data.get("currencySign"),
                             "quantity": self._quantity,
                         }
+
+                    elif instrument_type == "ExchangeRate": # Krypto
+                        self._attributes = {
+                            "name": data.get("name"),
+                            "instrumentTypeDisplayName": data.get("instrumentTypeDisplayName"),
+                            "bidDate": data.get("bidDate"),
+                            "askDate": data.get("askDate"),
+                            "wkn": data.get("wkn"),
+                            "isin": data.get("isin"),
+                            "internalIsin": data.get("internalIsin"),
+                            "stockMarket": data.get("stockMarket"),
+                            "priceChangeDate": data.get("priceChangeDate"),
+                            "currency": data.get("currencySign"),
+                            "currencySign": data.get("currencySign"),
+                            "quantity": self._quantity,
+                        }
+
                     else:  # Standardfall oder unbekannter Typ
                         self._attributes = {
                             "name": data.get("name"),
