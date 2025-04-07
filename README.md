@@ -19,7 +19,7 @@ The `Mini Stock Pocket` integration allows you to track stock prices and related
 - **Edit Stocks**: Update stock quantities or add more stocks to an existing hub.
 - **Delete Stocks**: Remove stocks from your portfolio.
 - **Configuration via UI**: Supports configuration and management via the Home Assistant UI.
-- **Dynamic Attributes**: Automatically adjusts sensor attributes based on the type of financial instrument (e.g., Share, Fund, Bond).
+- **Dynamic Attributes**: Automatically adjusts sensor attributes based on the type of financial instrument (e.g., Share, Fund, Bond, Krypto).
 - **Custom Quantity Tracking**: Tracks the quantity of stocks in your portfolio and calculates the total value.
 - **Localized Translations**: Supports multiple languages, including English and German.
 - **Flexible Options Flow**: Allows editing, adding, or deleting stocks directly from the integration's options menu.
